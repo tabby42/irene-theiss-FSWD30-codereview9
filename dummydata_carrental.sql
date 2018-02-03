@@ -80,7 +80,7 @@ INSERT INTO reservation_extra (fk_reservation_id, fk_extra_id) VALUES (2, 4); --
 INSERT INTO reservation_extra (fk_reservation_id, fk_extra_id) VALUES (3, 1); -- 5
 INSERT INTO reservation_extra (fk_reservation_id, fk_extra_id) VALUES (3, 2); -- 6
 
-INSERT INTO invoice (fk_reservation_id, discount) VALUES (1, 0.3); -- 1
+INSERT INTO invoice (fk_reservation_id, discount) VALUES (1, 0.03); -- 1
 
 
 

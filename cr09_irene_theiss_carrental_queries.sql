@@ -29,7 +29,7 @@ FROM customer
     JOIN branch_office AS b2 ON reservation.fk_pickup_office_id = b2.id
 WHERE is_returned = 'false';
 
--- all cars and their current location (location is NULL, if car is currently rented)
+-- all cars and their current location (location is NULL if car is currently rented)
 SELECT car.id, license_nr,  EXTRACT(YEAR FROM CURDATE()) - prod_year AS Age, 
 				CONCAT(num_seats, '-Sitzer') AS size, car_type, brandname, office_name
 FROM car
@@ -52,16 +52,24 @@ WHERE car_type = 'Minibus'
 GROUP BY office_name;
 
 -- invoice information for customer 1
-SELECT  CONCAT(salutation, ' ', firstname,' ',  lastname) As Name, 
-				b1.office_name AS pickup_location , b2.office_name AS return_location,
-                license_nr, price_per_day,
-                extra_name, extra.price
+SELECT  reservation.id, invoice.id, CONCAT(salutation, ' ', firstname,' ',  lastname) As Name, 
+				b1.office_name AS pickup_location , 
+                CONCAT(DATE_FORMAT(pickup_date, '%d.%m.%Y'), ', ', TIME_FORMAT(pickup_time, '%H:%i')) AS pickup_date,
+                b2.office_name AS return_location,
+                CONCAT(DATE_FORMAT(return_date, '%d.%m.%Y'), ', ', TIME_FORMAT(return_time, '%H:%i')) AS return_date,
+                CONCAT(license_nr, ', ', brandname, ', ', car_type) AS rented_car, 
+                price_per_day, SUM(extra.price) AS extras, CONCAT(discount * 100, '%') AS discount,
+                ROUND( (price_per_day + SUM(extra.price)) - ((price_per_day + SUM(extra.price)) * discount), 2) AS total
 FROM customer
 	JOIN reservation ON customer.id  =  reservation.fk_customer_id
     JOIN branch_office AS b1 ON reservation.fk_pickup_office_id = b1.id
     JOIN branch_office AS b2 ON reservation.fk_return_office_id = b2.id
     JOIN car ON reservation.fk_car_id = car.id
+    JOIN model on car.fk_model_id = model.id
+    JOIN brand ON car.fk_brand_id = brand.id
     JOIN reservation_extra ON reservation.id = reservation_extra.fk_reservation_id
     JOIN extra ON reservation_extra.fk_extra_id = extra.id
-WHERE customer.id = 1;
+    JOIN invoice ON reservation.id = invoice.fk_reservation_id
+WHERE customer.id = 1
+GROUP BY reservation.id;
 
