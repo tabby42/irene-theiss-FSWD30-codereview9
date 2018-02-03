@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS customer (
     birthdate DATE NOT NULL,
     email NVARCHAR(100) NOT NULL,
     fk_phone_country_code_id INT unsigned NOT NULL,
-	phone_nr INT unsigned NOT NULL,
+	phone_nr NVARCHAR(20) NOT NULL,
 	fk_city_id INT unsigned NOT NULL,
 	street NVARCHAR(100),
     street_nr NVARCHAR(6),
@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS customer (
 CREATE TABLE IF NOT EXISTS phone_country_code (
 	id INT unsigned NOT NULL AUTO_INCREMENT,
     country_code NVARCHAR(6) NOT NULL,
-    country_name NVARCHAR(55) NOT NULL,
     CONSTRAINT pk_phone_country_code PRIMARY KEY(id)
 );
 
@@ -48,7 +47,7 @@ CREATE TABLE IF NOT EXISTS branch_office (
     office_name NVARCHAR(20) NOT NULL,
     email NVARCHAR(100) NOT NULL,
 	fk_phone_country_code_id INT unsigned NOT NULL,
-	phone_nr INT unsigned NOT NULL,
+	phone_nr NVARCHAR(20) NOT NULL,
     fk_city_id INT unsigned NOT NULL,
 	street NVARCHAR(100),
     street_nr NVARCHAR(6),
@@ -96,13 +95,13 @@ CREATE TABLE IF NOT EXISTS car (
     num_doors TINYINT(5) NOT NULL,
     price_per_day DOUBLE NOT NULL,
     fk_model_id INT unsigned NOT NULL,
+	fk_brand_id INT unsigned NOT NULL,
 	CONSTRAINT pk_car PRIMARY KEY(id)
 );
 
 CREATE TABLE IF NOT EXISTS model (
 	id INT unsigned NOT NULL AUTO_INCREMENT,
     car_type NVARCHAR(20) NOT NULL,
-    fk_brand_id INT unsigned NOT NULL,
     CONSTRAINT pk_model PRIMARY KEY(id)
 );
 
@@ -111,3 +110,67 @@ CREATE TABLE IF NOT EXISTS brand (
     brandname NVARCHAR(20) NOT NULL,
     CONSTRAINT pk_brand PRIMARY KEY(id)
 );
+
+CREATE TABLE IF NOT EXISTS invoice (
+	id INT unsigned NOT NULL AUTO_INCREMENT,
+	fk_reservation_id INT unsigned NOT NULL,
+    discount DOUBLE,
+    CONSTRAINT pk_invoice PRIMARY KEY(id)
+);
+
+-- create foreign keys
+ALTER TABLE customer 
+ADD CONSTRAINT fk_customer__phone_country_code
+FOREIGN KEY ( fk_phone_country_code_id) REFERENCES phone_country_code (id);
+
+ALTER TABLE customer 
+ADD CONSTRAINT fk_customer_city
+FOREIGN KEY ( fk_city_id) REFERENCES city (id);
+
+ALTER TABLE city 
+ADD CONSTRAINT fk_city_country
+FOREIGN KEY ( fk_country_id) REFERENCES country (id);
+
+ALTER TABLE branch_office 
+ADD CONSTRAINT fk_branch_office__phone_country_code
+FOREIGN KEY ( fk_phone_country_code_id) REFERENCES phone_country_code (id);
+
+ALTER TABLE branch_office 
+ADD CONSTRAINT fk_branch_office_city
+FOREIGN KEY ( fk_city_id) REFERENCES city (id);
+
+ALTER TABLE reservation_extra 
+ADD CONSTRAINT fk_reservation_extra__reseravtion
+FOREIGN KEY ( fk_reservation_id) REFERENCES reservation (id);
+
+ALTER TABLE reservation_extra 
+ADD CONSTRAINT fk_reservation_extra__extra
+FOREIGN KEY ( fk_extra_id) REFERENCES extra (id);
+
+ALTER TABLE reservation
+ADD CONSTRAINT fk_reservation_customer
+FOREIGN KEY ( fk_customer_id) REFERENCES customer (id);
+
+ALTER TABLE reservation
+ADD CONSTRAINT fk_reservation_car
+FOREIGN KEY ( fk_car_id) REFERENCES car (id);
+
+ALTER TABLE reservation
+ADD CONSTRAINT fk_reservation__branch_office_pickup
+FOREIGN KEY ( fk_pickup_office_id) REFERENCES branch_office (id);
+
+ALTER TABLE reservation
+ADD CONSTRAINT fk_reservation__branch_office_return
+FOREIGN KEY ( fk_return_office_id) REFERENCES branch_office (id);
+
+ALTER TABLE car
+ADD CONSTRAINT fk_car_model
+FOREIGN KEY ( fk_model_id) REFERENCES model (id);
+
+ALTER TABLE car
+ADD CONSTRAINT fk_model_brand
+FOREIGN KEY ( fk_brand_id) REFERENCES brand (id);
+
+ALTER TABLE invoice
+ADD CONSTRAINT fk_invoice_reservation
+FOREIGN KEY ( fk_reservation_id) REFERENCES reservation (id);
