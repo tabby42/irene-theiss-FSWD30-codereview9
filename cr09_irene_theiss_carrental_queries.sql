@@ -47,9 +47,21 @@ GROUP BY office_name;
 SELECT office_name, COUNT(license_nr)
 FROM branch_office
 	LEFT JOIN  car ON branch_office.id = car.fk_current_office_id
-    RIGHT JOIN model ON car.fk_model_id = model.id
+    JOIN model ON car.fk_model_id = model.id
 WHERE car_type = 'Minibus'
 GROUP BY office_name;
 
--- invoices for customer 1
+-- invoice information for customer 1
+SELECT  CONCAT(salutation, ' ', firstname,' ',  lastname) As Name, 
+				b1.office_name AS pickup_location , b2.office_name AS return_location,
+                license_nr, price_per_day,
+                extra_name, extra.price
+FROM customer
+	JOIN reservation ON customer.id  =  reservation.fk_customer_id
+    JOIN branch_office AS b1 ON reservation.fk_pickup_office_id = b1.id
+    JOIN branch_office AS b2 ON reservation.fk_return_office_id = b2.id
+    JOIN car ON reservation.fk_car_id = car.id
+    JOIN reservation_extra ON reservation.id = reservation_extra.fk_reservation_id
+    JOIN extra ON reservation_extra.fk_extra_id = extra.id
+WHERE customer.id = 1;
 
