@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 03, 2018 at 04:54 PM
+-- Generation Time: Feb 03, 2018 at 06:35 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -44,9 +44,9 @@ CREATE TABLE `branch_office` (
 --
 
 INSERT INTO `branch_office` (`id`, `office_name`, `email`, `fk_phone_country_code_id`, `phone_nr`, `fk_city_id`, `street`, `street_nr`) VALUES
-(1, 'Office Wien 3', 'carrental_v3@carrental.com', 1, '0699/129867', 3, 'Baumgasse', '4a'),
-(2, 'Office LE', 'carrental_le@carrental.com', 1, '0699/1298312', 1, 'Scheibenmais', '20'),
-(3, 'Office Graz Gösting', 'carrental_gg@carrental.com', 1, '0699/986512', 2, 'Annagasse', '14');
+(1, 'Office Wien 3', 'carrental_v3@carrental.com', 1, '699/129867', 3, 'Baumgasse', '4a'),
+(2, 'Office LE', 'carrental_le@carrental.com', 1, '699/1298312', 1, 'Scheibenmais', '20'),
+(3, 'Office Graz Gösting', 'carrental_gg@carrental.com', 1, '699/986512', 2, 'Annagasse', '14');
 
 -- --------------------------------------------------------
 
@@ -66,7 +66,8 @@ CREATE TABLE `brand` (
 INSERT INTO `brand` (`id`, `brandname`) VALUES
 (1, 'VW'),
 (2, 'Opel'),
-(3, 'BMW');
+(3, 'BMW'),
+(4, 'Tesla');
 
 -- --------------------------------------------------------
 
@@ -100,7 +101,8 @@ INSERT INTO `car` (`id`, `license_nr`, `kilometer_status`, `ps`, `circuit`, `pro
 (2, 'KO4321', 45000, 110, 'automatic', 2010, 'true', 'true', 4, 3, 99.7, 2, 2, NULL),
 (3, 'G9807', 8000, 130, 'hand', 2012, 'true', 'true', 5, 5, 105.7, 3, 3, NULL),
 (4, 'W9807', 14000, 100, 'automatic', 2014, 'true', 'false', 5, 5, 99.8, 4, 1, 1),
-(5, 'W7765', 25000, 200, 'automatic', 2015, 'true', 'true', 5, 3, 110.8, 1, 3, 1);
+(5, 'W7765', 25000, 200, 'automatic', 2015, 'true', 'true', 5, 3, 110.8, 1, 3, 1),
+(6, 'KO2243', 11000, 230, 'hand', 2016, 'true', 'true', 5, 5, 210.9, 1, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -172,9 +174,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `salutation`, `firstname`, `lastname`, `birthdate`, `email`, `fk_phone_country_code_id`, `phone_nr`, `fk_city_id`, `street`, `street_nr`, `drivers_license_nr`) VALUES
-(1, 'Ms', 'Maria', 'Muster', '1970-12-13', 'test@gmail.com', 1, '0650/676767', 2, 'Herrengasse', '5b/3', '12341234B'),
-(2, 'Mr', 'Herbert', 'Herbst', '1966-04-09', 'test2@gmail.com', 1, '0676/8654', 5, 'Margaretenstraße', '120/5', '43214321A'),
-(3, 'Mrs', 'Ludmilla', 'Lodenmantel', '1993-10-31', 'test3@gmail.com', 1, '0676/098707', 1, 'Hauptstraße', '45/7', '98769876C');
+(1, 'Ms', 'Maria', 'Muster', '1970-12-13', 'test@gmail.com', 1, '650/676767', 2, 'Herrengasse', '5b/3', '12341234B'),
+(2, 'Mr', 'Herbert', 'Herbst', '1966-04-09', 'test2@gmail.com', 1, '676/8654', 5, 'Margaretenstraße', '120/5', '43214321A'),
+(3, 'Mrs', 'Ludmilla', 'Lodenmantel', '1993-10-31', 'test3@gmail.com', 1, '676/098707', 1, 'Hauptstraße', '45/7', '98769876C');
 
 -- --------------------------------------------------------
 
@@ -219,7 +221,8 @@ CREATE TABLE `invoice` (
 --
 
 INSERT INTO `invoice` (`id`, `fk_reservation_id`, `discount`) VALUES
-(1, 1, 0.3);
+(1, 1, 0.03),
+(2, 2, 0.1);
 
 -- --------------------------------------------------------
 
@@ -417,13 +420,13 @@ ALTER TABLE `branch_office`
 -- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `car`
 --
 ALTER TABLE `car`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `city`
@@ -453,7 +456,7 @@ ALTER TABLE `extra`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `model`
