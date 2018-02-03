@@ -39,14 +39,17 @@ INSERT INTO model (car_type) VALUES ('SUV'); -- 3
 INSERT INTO model (car_type) VALUES ('Minibus'); -- 4
 
 INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
-						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id )
-VALUES ('W1234', 12000, 100, 'hand', '2000', 'true', 'false', 5, 5, 85.7, 1, 1);  -- 1
+						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id )
+VALUES ('W1234', 12000, 100, 'hand', '2000', 'true', 'false', 5, 5, 85.7, 1, 1, 3);  -- 1
 INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
-						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id )
-VALUES ('KO4321', 45000, 110, 'automatic', '2010', 'true', 'true', 4, 3, 99.7, 2, 2);  -- 2
+						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id )
+VALUES ('KO4321', 45000, 110, 'automatic', '2010', 'true', 'true', 4, 3, 99.7, 2, 2, NULL);  -- 2
 INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
-						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id )
-VALUES ('G9807', 8000, 130, 'hand', '2012', 'true', 'true', 5, 5, 105.7, 3, 3);  -- 3
+						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id)
+VALUES ('G9807', 8000, 130, 'hand', '2012', 'true', 'true', 5, 5, 105.7, 3, 3, NULL);  -- 3
+INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
+						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id )
+VALUES ('W9807', 14000, 100, 'automatic', '2014', 'true', 'false', 5, 5, 99.8, 4, 1, 1);  -- 3
 
 INSERT INTO extra (extra_name, price) VALUES ('young driver fee', 12.99);  -- 1
 INSERT INTO extra (extra_name, price) VALUES ('limitation of liability', 10.99);  -- 2

@@ -96,6 +96,7 @@ CREATE TABLE IF NOT EXISTS car (
     price_per_day DOUBLE NOT NULL,
     fk_model_id INT unsigned NOT NULL,
 	fk_brand_id INT unsigned NOT NULL,
+    fk_current_office_id INT unsigned,
 	CONSTRAINT pk_car PRIMARY KEY(id)
 );
 
@@ -168,8 +169,12 @@ ADD CONSTRAINT fk_car_model
 FOREIGN KEY ( fk_model_id) REFERENCES model (id);
 
 ALTER TABLE car
-ADD CONSTRAINT fk_model_brand
+ADD CONSTRAINT fk_car_brand
 FOREIGN KEY ( fk_brand_id) REFERENCES brand (id);
+
+ALTER TABLE car
+ADD CONSTRAINT fk_car__branch_office
+FOREIGN KEY ( fk_current_office_id) REFERENCES branch_office (id);
 
 ALTER TABLE invoice
 ADD CONSTRAINT fk_invoice_reservation
