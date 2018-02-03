@@ -30,8 +30,8 @@ FROM customer
 WHERE is_returned = 'false';
 
 -- all cars and their current location (location is NULL if car is currently rented out )
-SELECT car.id, license_nr, prod_year,  EXTRACT(YEAR FROM CURDATE()) - prod_year AS Age, 
-				CONCAT(num_seats, '-Sitzer') AS size, car_type, brandname, office_name
+SELECT car.id, office_name, license_nr, prod_year,  EXTRACT(YEAR FROM CURDATE()) - prod_year AS Age, ps,
+				CONCAT(num_seats, '-Sitzer') AS size, num_doors, navigation_system, air_condition, car_type, brandname, price_per_day
 FROM car
 	LEFT JOIN branch_office ON car.fk_current_office_id = branch_office.id
 	JOIN model ON car.fk_model_id = model.id
@@ -39,7 +39,7 @@ FROM car
 ORDER BY car.id;
     
 -- number of available cars at offices
-SELECT office_name, COUNT(license_nr)
+SELECT office_name, COUNT(license_nr) AS count
 FROM branch_office
 	LEFT JOIN  car ON branch_office.id = car.fk_current_office_id
 GROUP BY office_name;
