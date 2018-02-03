@@ -13,25 +13,26 @@ INSERT INTO phone_country_code (country_code) VALUES ('+43'); -- 1
 INSERT INTO phone_country_code (country_code) VALUES ('+49'); -- 2
 
 INSERT INTO branch_office (office_name, email, fk_phone_country_code_id, phone_nr, fk_city_id, street, street_nr)
-VALUES ('Office Wien 3', 'carrental_v3@carrental.com', 1, '0699/129867', 3, 'Baumgasse', '4a' ); -- 1
+VALUES ('Office Wien 3', 'carrental_v3@carrental.com', 1, '699/129867', 3, 'Baumgasse', '4a' ); -- 1
 INSERT INTO branch_office (office_name, email, fk_phone_country_code_id, phone_nr, fk_city_id, street, street_nr)
-VALUES ('Office LE', 'carrental_le@carrental.com', 1, '0699/1298312', 1, 'Scheibenmais', '20' ); -- 2
+VALUES ('Office LE', 'carrental_le@carrental.com', 1, '699/1298312', 1, 'Scheibenmais', '20' ); -- 2
 INSERT INTO branch_office (office_name, email, fk_phone_country_code_id, phone_nr, fk_city_id, street, street_nr)
-VALUES ('Office Graz Gösting', 'carrental_gg@carrental.com', 1, '0699/986512', 2, 'Annagasse', '14' ); -- 3
+VALUES ('Office Graz Gösting', 'carrental_gg@carrental.com', 1, '699/986512', 2, 'Annagasse', '14' ); -- 3
 
 INSERT INTO customer (salutation, firstname, lastname, birthdate, email, 
 						fk_phone_country_code_id, phone_nr, fk_city_id, street, street_nr, drivers_license_nr)
-VALUES ('Ms', 'Maria', 'Muster', '1970-12-13', 'test@gmail.com', 1, '0650/676767', 2, 'Herrengasse', '5b/3', '12341234B'); -- 1
+VALUES ('Ms', 'Maria', 'Muster', '1970-12-13', 'test@gmail.com', 1, '650/676767', 2, 'Herrengasse', '5b/3', '12341234B'); -- 1
 INSERT INTO customer (salutation, firstname, lastname, birthdate, email, 
 						fk_phone_country_code_id, phone_nr, fk_city_id, street, street_nr, drivers_license_nr)
-VALUES ('Mr', 'Herbert', 'Herbst', '1966-04-09', 'test2@gmail.com', 1, '0676/8654', 5, 'Margaretenstraße', '120/5', '43214321A'); -- 2
+VALUES ('Mr', 'Herbert', 'Herbst', '1966-04-09', 'test2@gmail.com', 1, '676/8654', 5, 'Margaretenstraße', '120/5', '43214321A'); -- 2
 INSERT INTO customer (salutation, firstname, lastname, birthdate, email, 
 						fk_phone_country_code_id, phone_nr, fk_city_id, street, street_nr, drivers_license_nr)
-VALUES ('Mrs', 'Ludmilla', 'Lodenmantel', '1993-10-31', 'test3@gmail.com', 1, '0676/098707', 1, 'Hauptstraße', '45/7', '98769876C'); -- 3
+VALUES ('Mrs', 'Ludmilla', 'Lodenmantel', '1993-10-31', 'test3@gmail.com', 1, '676/098707', 1, 'Hauptstraße', '45/7', '98769876C'); -- 3
 
 INSERT INTO brand (brandname) VALUES ('VW'); -- 1
 INSERT INTO brand (brandname) VALUES ('Opel'); -- 2
 INSERT INTO brand (brandname) VALUES ('BMW'); -- 3
+INSERT INTO brand (brandname) VALUES ('Tesla'); -- 4
 
 INSERT INTO model (car_type) VALUES ('Limousine'); -- 1
 INSERT INTO model (car_type) VALUES ('Kombi'); -- 2
@@ -49,10 +50,13 @@ INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigatio
 VALUES ('G9807', 8000, 130, 'hand', '2012', 'true', 'true', 5, 5, 105.7, 3, 3, NULL);  -- 3
 INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
 						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id )
-VALUES ('W9807', 14000, 100, 'automatic', '2014', 'true', 'false', 5, 5, 99.8, 4, 1, 1);  -- 3
+VALUES ('W9807', 14000, 100, 'automatic', '2014', 'true', 'false', 5, 5, 99.8, 4, 1, 1);  -- 4
 INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
 						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id )
-VALUES ('W7765', 25000, 200, 'automatic', '2015', 'true', 'true', 5, 3, 110.8, 1, 3, 1);  -- 4
+VALUES ('W7765', 25000, 200, 'automatic', '2015', 'true', 'true', 5, 3, 110.8, 1, 3, 1);  -- 5
+INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
+						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id )
+VALUES ('KO2243', 11000, 230, 'hand', '2016', 'true', 'true', 5, 5, 210.9, 1, 4, 1);  -- 6
 
 INSERT INTO extra (extra_name, price) VALUES ('young driver fee', 12.99);  -- 1
 INSERT INTO extra (extra_name, price) VALUES ('limitation of liability', 10.99);  -- 2
@@ -81,6 +85,7 @@ INSERT INTO reservation_extra (fk_reservation_id, fk_extra_id) VALUES (3, 1); --
 INSERT INTO reservation_extra (fk_reservation_id, fk_extra_id) VALUES (3, 2); -- 6
 
 INSERT INTO invoice (fk_reservation_id, discount) VALUES (1, 0.03); -- 1
+INSERT INTO invoice (fk_reservation_id, discount) VALUES (2, 0.1); -- 2
 
 
 

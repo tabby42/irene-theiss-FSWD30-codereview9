@@ -29,13 +29,14 @@ FROM customer
     JOIN branch_office AS b2 ON reservation.fk_pickup_office_id = b2.id
 WHERE is_returned = 'false';
 
--- all cars and their current location (location is NULL if car is currently rented)
-SELECT car.id, license_nr,  EXTRACT(YEAR FROM CURDATE()) - prod_year AS Age, 
+-- all cars and their current location (location is NULL if car is currently rented out )
+SELECT car.id, license_nr, prod_year,  EXTRACT(YEAR FROM CURDATE()) - prod_year AS Age, 
 				CONCAT(num_seats, '-Sitzer') AS size, car_type, brandname, office_name
 FROM car
 	LEFT JOIN branch_office ON car.fk_current_office_id = branch_office.id
 	JOIN model ON car.fk_model_id = model.id
-    JOIN brand ON car.fk_brand_id = brand.id;
+    JOIN brand ON car.fk_brand_id = brand.id
+ORDER BY car.id;
     
 -- number of available cars at offices
 SELECT office_name, COUNT(license_nr)
@@ -51,15 +52,16 @@ FROM branch_office
 WHERE car_type = 'Minibus'
 GROUP BY office_name;
 
--- invoice information for customer 1
-SELECT  reservation.id, invoice.id, CONCAT(salutation, ' ', firstname,' ',  lastname) As Name, 
+-- invoice information
+SELECT  invoice.id, CONCAT(salutation, ' ', firstname,' ',  lastname) As Name, drivers_license_nr,
 				b1.office_name AS pickup_location , 
                 CONCAT(DATE_FORMAT(pickup_date, '%d.%m.%Y'), ', ', TIME_FORMAT(pickup_time, '%H:%i')) AS pickup_date,
                 b2.office_name AS return_location,
                 CONCAT(DATE_FORMAT(return_date, '%d.%m.%Y'), ', ', TIME_FORMAT(return_time, '%H:%i')) AS return_date,
                 CONCAT(license_nr, ', ', brandname, ' ', car_type, ', ', CONCAT(ps, ' PS')) AS rented_car, 
-                price_per_day, SUM(extra.price) AS extras, CONCAT(discount * 100, '%') AS discount,
-                ROUND( (price_per_day + SUM(extra.price)) - ((price_per_day + SUM(extra.price)) * discount), 2) AS total
+                price_per_day, TIMESTAMPDIFF(DAY, pickup_date, return_date) AS days,
+                SUM(extra.price) AS extras, CONCAT(discount * 100, '%') AS discount,
+                ROUND( ((price_per_day * TIMESTAMPDIFF(DAY, pickup_date, return_date)) + SUM(extra.price)) - (((price_per_day * TIMESTAMPDIFF(DAY, pickup_date, return_date))+ SUM(extra.price)) * discount), 2) AS total
 FROM customer
 	JOIN reservation ON customer.id  =  reservation.fk_customer_id
     JOIN branch_office AS b1 ON reservation.fk_pickup_office_id = b1.id
@@ -70,6 +72,10 @@ FROM customer
     JOIN reservation_extra ON reservation.id = reservation_extra.fk_reservation_id
     JOIN extra ON reservation_extra.fk_extra_id = extra.id
     JOIN invoice ON reservation.id = invoice.fk_reservation_id
-WHERE customer.id = 1
-GROUP BY reservation.id;
+-- WHERE customer.id = 2
+GROUP BY invoice.id;
+
+
+
+
 
