@@ -50,6 +50,9 @@ VALUES ('G9807', 8000, 130, 'hand', '2012', 'true', 'true', 5, 5, 105.7, 3, 3, N
 INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
 						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id )
 VALUES ('W9807', 14000, 100, 'automatic', '2014', 'true', 'false', 5, 5, 99.8, 4, 1, 1);  -- 3
+INSERT INTO car (license_nr, kilometer_status, ps, circuit, prod_year, navigation_system, air_condition, 
+						num_seats, num_doors, price_per_day, fk_model_id ,fk_brand_id, fk_current_office_id )
+VALUES ('W7765', 25000, 200, 'automatic', '2015', 'true', 'true', 5, 3, 110.8, 1, 3, 1);  -- 4
 
 INSERT INTO extra (extra_name, price) VALUES ('young driver fee', 12.99);  -- 1
 INSERT INTO extra (extra_name, price) VALUES ('limitation of liability', 10.99);  -- 2
@@ -58,6 +61,7 @@ INSERT INTO extra (extra_name, price) VALUES ('personal accident protection', 12
 INSERT INTO extra (extra_name, price) VALUES ('gasoline fee', 25.89);  -- 5
 INSERT INTO extra (extra_name, price) VALUES ('late return', 49.50);  -- 6
 INSERT INTO extra (extra_name, price) VALUES ('border crossing fee', 39.50);  -- 7
+INSERT INTO extra (extra_name, price) VALUES ('cancellation fee', 25.50);  -- 8
 
 INSERT INTO reservation (fk_customer_id, fk_car_id, fk_pickup_office_id, fk_return_office_id, pickup_date, return_date, 
 						pickup_time, return_time, cancel_date, is_returned)

@@ -13,12 +13,12 @@ SELECT CONCAT(salutation, ' ', firstname,' ',  lastname) As Name,
 FROM customer
 WHERE TIMESTAMPDIFF(YEAR, birthdate ,CURDATE()) <= 25;
 
--- all customers with cars that haven't been returned yet, with date and location for return
+-- all customers with cars that haven't been returned yet, with date and location for return and how many days are left
 SELECT CONCAT(salutation, ' ', firstname,' ',  lastname) As Name, 
 				license_nr, price_per_day, car_type, brandname, 
                 b2.office_name AS pickup_location, 
                 b1.office_name AS return_location,
-                CONCAT(DATE_FORMAT(return_date, '%d.%m.%Y'), ', ', TIME_FORMAT(return_time, '%H:%i'))AS return_date,
+                CONCAT(DATE_FORMAT(return_date, '%d.%m.%Y'), ', ', TIME_FORMAT(return_time, '%H:%i')) AS return_date,
                 TIMESTAMPDIFF(DAY, CURDATE(), return_date) AS days_left
 FROM customer
 	JOIN reservation ON customer.id = reservation.fk_customer_id
@@ -29,7 +29,27 @@ FROM customer
     JOIN branch_office AS b2 ON reservation.fk_pickup_office_id = b2.id
 WHERE is_returned = 'false';
 
--- all cars and their current location
+-- all cars and their current location (location is NULL, if car is currently rented)
+SELECT car.id, license_nr,  EXTRACT(YEAR FROM CURDATE()) - prod_year AS Age, 
+				CONCAT(num_seats, '-Sitzer') AS size, car_type, brandname, office_name
+FROM car
+	LEFT JOIN branch_office ON car.fk_current_office_id = branch_office.id
+	JOIN model ON car.fk_model_id = model.id
+    JOIN brand ON car.fk_brand_id = brand.id;
+    
+-- number of available cars at offices
+SELECT office_name, COUNT(license_nr)
+FROM branch_office
+	LEFT JOIN  car ON branch_office.id = car.fk_current_office_id
+GROUP BY office_name;
 
--- invoice for customer 1
+-- offices with available minibusses and their count
+SELECT office_name, COUNT(license_nr)
+FROM branch_office
+	LEFT JOIN  car ON branch_office.id = car.fk_current_office_id
+    RIGHT JOIN model ON car.fk_model_id = model.id
+WHERE car_type = 'Minibus'
+GROUP BY office_name;
+
+-- invoices for customer 1
 
