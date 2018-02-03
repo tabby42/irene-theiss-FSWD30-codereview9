@@ -57,7 +57,7 @@ SELECT  reservation.id, invoice.id, CONCAT(salutation, ' ', firstname,' ',  last
                 CONCAT(DATE_FORMAT(pickup_date, '%d.%m.%Y'), ', ', TIME_FORMAT(pickup_time, '%H:%i')) AS pickup_date,
                 b2.office_name AS return_location,
                 CONCAT(DATE_FORMAT(return_date, '%d.%m.%Y'), ', ', TIME_FORMAT(return_time, '%H:%i')) AS return_date,
-                CONCAT(license_nr, ', ', brandname, ', ', car_type) AS rented_car, 
+                CONCAT(license_nr, ', ', brandname, ' ', car_type, ', ', CONCAT(ps, ' PS')) AS rented_car, 
                 price_per_day, SUM(extra.price) AS extras, CONCAT(discount * 100, '%') AS discount,
                 ROUND( (price_per_day + SUM(extra.price)) - ((price_per_day + SUM(extra.price)) * discount), 2) AS total
 FROM customer
